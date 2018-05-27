@@ -4,16 +4,15 @@ const fs = require('fs');@Injectable()
 export class usuarioMiddleware implements NestMiddleware {
     resolve(): ExpressMiddleware {
         return (request, response, next) => {
-            const nombreCookie = request.cookies;
-            if (nombreCookie=='EN CACHE') {
-                return response.send({mensaje: 'En cache'});
-
-            } else {
-                next();
-                return response.send({mensaje: 'No ESTA EN CACHE', status: 400});
+            /*if(request.cookies!=undefined){
+                response.send({mensaje: 'ESTA EN CACHE'});
             }
-
+            else
+            {
+                response.send({mensaje: 'No esta en cache'});
+            }*/
+            next();
 
         }
-    }
+        }
 }

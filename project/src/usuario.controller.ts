@@ -4,11 +4,15 @@ import {Controller, Get, Req, Res} from "@nestjs/common";
 export class UsuarioController {
 
     @Get('sesion')
-    visitarPagina(@Res() response, @Req() request){
-       response.cookies('EN CACHE');
-       return response.send();
+    sesion(@Res() response, @Req() request){
+        const parametros={
+            nombre: 'EN CACHE',
+            valor: 'CACHE'
+        };
+        console.log(parametros.nombre, parametros.valor);
+        response.cookie(parametros.nombre, parametros.valor);
+        return response.send();
     }
-
 
 
 }
