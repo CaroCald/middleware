@@ -18,6 +18,7 @@ export class AppModule implements NestModule {
         consumer.apply(LogMiddleware).with(variable).forRoutes(
             AppController
         );*/
+
         consumer.apply(usuarioMiddleware).with().forRoutes(UsuarioController);
     }
 }
