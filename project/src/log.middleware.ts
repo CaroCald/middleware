@@ -1,41 +1,51 @@
-import {Middleware, NestMiddleware} from "@nestjs/common";
+import {Injectable, NestMiddleware} from "@nestjs/common";
 import {ExpressMiddleware} from "@nestjs/common/interfaces/middlewares/express-middleware.interface";
 const fs = require('fs');
-@Middleware()
+@Injectable()
 export class LogMiddleware implements NestMiddleware {
 
     resolve(nivelDeLog:string): ExpressMiddleware {
+        let respuesta ={};
         return (request, response, next) => {
-            const respuesta = {
-                baseUrl: request.baseUrl,
-                hostname: request.hostname,
-                subdomains: request.subdomains,
-                ip: request.ip,
-                method: request.method,
-                originalUrl: request.originalUrl,
-                path: request.path,
-                protocol: request.protocol,
-                headers: request.headers,
-            };
-            fs.open(__dirname+'/archivoTxt/logs.txt', 'w', function(err, fd) {
-                if (err) {
-                    throw 'error opening file: ' + err;
-                }
 
-                fs.write(fd, respuesta, 0, respuesta!=null, null, function(err) {
-                    if (err) throw 'error writing file: ' + err;
-                    fs.close(fd, function() {
-                        console.log('file written');
-                    })
-                });
-            });
-            next();
-            console.log(respuesta);
-            next();
 
-             //para ir al siguiente middleware
+
+
         };
+
     }
+
+    guardarParametros(request, response, next, nivelDeLog, respuesta){
+        respuesta = {
+            baseUrl: request.baseUrl,
+            hostname: request.hostname,
+            subdomains: request.subdomains,
+            ip: request.ip,
+            method: request.method,
+            originalUrl: request.originalUrl,
+            path: request.path,
+            protocol: request.protocol,
+            headers: request.headers,
+        };
+        return respuesta;
+    }
+    guardarArchivo(request, response, next, nivelDeLog, respuesta) {
+        if(nivelDeLog=='archivo') {
+            console.log(nivelDeLog);
+            this.guardarParametros(request, response, next, nivelDeLog, respuesta);
+        };
+        fs.writeFile(__dirname + '/archivoTxt/logs.txt', JSON.stringify(respuesta), function (err) {
+            if (err) {
+                console.log(err);
+            }
+        });
+        next();
+
+    }
+    imprimirEnConsola(){
+        con
+    }
+
 
 
 }
