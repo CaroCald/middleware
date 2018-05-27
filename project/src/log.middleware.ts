@@ -9,23 +9,21 @@ export class LogMiddleware implements NestMiddleware {
 
             if(nivelDeLog=='archivo') {
                 console.log(nivelDeLog);
-
-                fs.writeFile(__dirname + '/archivoTxt/logs.txt', JSON.stringify(this.guardarRespuesta(request, response, next)), function (err) {
-                    if (err) {
-                        console.log(err);
-                    }
-                });
+                this.guardarArchivo(request);
                 next();
             }
 
             if(nivelDeLog=='consola'){
                 console.log(nivelDeLog);
-                console.log(this.guardarRespuesta(request, response, next));
+                console.log(this.guardarRespuesta(request));
                 next();
             }
 
             if(nivelDeLog=='todo'){
                 console.log(nivelDeLog);
+                this.guardarArchivo(request);
+                console.log(this.guardarRespuesta(request));
+
                 next();
             }
 
@@ -34,8 +32,7 @@ export class LogMiddleware implements NestMiddleware {
         };
 
     }
-
-    guardarRespuesta(request, response, next){
+    guardarRespuesta(request){
        const respuesta = {
             baseUrl: request.baseUrl,
             hostname: request.hostname,
@@ -48,6 +45,14 @@ export class LogMiddleware implements NestMiddleware {
             headers: request.headers,
         };
         return respuesta;
+    }
+
+    guardarArchivo(request){
+        fs.writeFile(__dirname + '/archivoTxt/logs.txt', JSON.stringify(this.guardarRespuesta(request)), function (err) {
+            if (err) {
+                console.log(err);
+            }
+        });
     }
 
 
