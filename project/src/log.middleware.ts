@@ -5,9 +5,29 @@ const fs = require('fs');
 export class LogMiddleware implements NestMiddleware {
 
     resolve(nivelDeLog:string): ExpressMiddleware {
-        let respuesta ={};
         return (request, response, next) => {
 
+            if(nivelDeLog=='archivo') {
+                console.log(nivelDeLog);
+
+                fs.writeFile(__dirname + '/archivoTxt/logs.txt', JSON.stringify(this.guardarRespuesta(request, response, next)), function (err) {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+                next();
+            }
+
+            if(nivelDeLog=='consola'){
+                console.log(nivelDeLog);
+                console.log(this.guardarRespuesta(request, response, next));
+                next();
+            }
+
+            if(nivelDeLog=='todo'){
+                console.log(nivelDeLog);
+                next();
+            }
 
 
 
@@ -15,8 +35,8 @@ export class LogMiddleware implements NestMiddleware {
 
     }
 
-    guardarParametros(request, response, next, nivelDeLog, respuesta){
-        respuesta = {
+    guardarRespuesta(request, response, next){
+       const respuesta = {
             baseUrl: request.baseUrl,
             hostname: request.hostname,
             subdomains: request.subdomains,
@@ -29,23 +49,6 @@ export class LogMiddleware implements NestMiddleware {
         };
         return respuesta;
     }
-    guardarArchivo(request, response, next, nivelDeLog, respuesta) {
-        if(nivelDeLog=='archivo') {
-            console.log(nivelDeLog);
-            this.guardarParametros(request, response, next, nivelDeLog, respuesta);
-        };
-        fs.writeFile(__dirname + '/archivoTxt/logs.txt', JSON.stringify(respuesta), function (err) {
-            if (err) {
-                console.log(err);
-            }
-        });
-        next();
-
-    }
-    imprimirEnConsola(){
-        con
-    }
-
 
 
 }

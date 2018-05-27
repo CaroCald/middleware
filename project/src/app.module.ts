@@ -12,7 +12,7 @@ import {LogMiddleware} from "./log.middleware";
 export class AppModule implements NestModule {
 
     configure(consumer: MiddlewaresConsumer): void {
-        const variable='archivo';
+        const variable='consola';
         consumer.apply(LogMiddleware).with(variable).forRoutes(
             AppController
         );
