@@ -10,9 +10,6 @@ export class UsuarioController {
             valor: 'cache'
         };
         response.cookie(parametro.nombre, parametro.valor);
-        return response.send({mensaje: 'SI ESTA LA COOKIE'})
+        return response.send({mensaje: 'LA COOKIE SE COLOCO EN CACHE'})
     }
-
-
-
 }
