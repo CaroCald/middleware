@@ -14,8 +14,8 @@ import {usuarioMiddleware} from "./usuario.middleware";
 export class AppModule implements NestModule {
 
     configure(consumer: MiddlewaresConsumer): void {
-        /*const variable='todo';
-        consumer.apply(LogMiddleware).with(variable).forRoutes(
+        /*const nivelLog='todo';
+        consumer.apply(LogMiddleware).with(nivelLog).forRoutes(
             AppController
         );*/
 
